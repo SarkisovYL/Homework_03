@@ -30,7 +30,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         button.setOnClickListener {
-            updateProgress()
+            if (currentProgress > 0) {
+                currentProgress-= 1
+                updateProgress()
+            }
+//            TODO Для реализации таймера понадобится цикл, в котором нужно каждую секунду
+//             перерисовывать UI. Не забудьте, что главный поток в Android нельзя блокировать,
+//             но в то же время нельзя менять UI из других потоков.  Самым простым способом будет
+//             использование корутин с Main диспетчером и метода delay, который не блокирует поток.
         }
     }
 }

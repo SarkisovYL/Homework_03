@@ -14,11 +14,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val slider = binding.slider
-        var textCount = binding.textCount
+        val textCount = binding.textCount
         val button = binding.buttonStart
         val circleProgress = binding.progressBarCircular
 
-        var updateProgress = {
+        val updateProgress = {
             circleProgress.progress = currentProgress
             textCount.text = currentProgress.toString()
         }
@@ -30,14 +30,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         button.setOnClickListener {
-            if (currentProgress > 0) {
-                currentProgress-= 1
-                updateProgress()
-            }
 //            TODO Для реализации таймера понадобится цикл, в котором нужно каждую секунду
 //             перерисовывать UI. Не забудьте, что главный поток в Android нельзя блокировать,
 //             но в то же время нельзя менять UI из других потоков.  Самым простым способом будет
 //             использование корутин с Main диспетчером и метода delay, который не блокирует поток.
+
+            val job = GlobalScope.launch(Dispatchers.Main) {
+                while (currentProgress > 0) {
+                    currentProgress-= 1
+                    delay(1000L)
+                    updateProgress()
+                }
+            }
         }
     }
 }

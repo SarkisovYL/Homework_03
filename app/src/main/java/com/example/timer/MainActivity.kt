@@ -2,6 +2,8 @@ package com.example.timer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import com.example.timer.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 
@@ -35,13 +37,17 @@ class MainActivity : AppCompatActivity() {
 //             но в то же время нельзя менять UI из других потоков.  Самым простым способом будет
 //             использование корутин с Main диспетчером и метода delay, который не блокирует поток.
 
-            val job = GlobalScope.launch(Dispatchers.Main) {
+            val scope = CoroutineScope(Job() + Dispatchers.Main)
+            val job = scope.launch {
                 while (currentProgress > 0) {
                     currentProgress-= 1
-                    delay(1000L)
                     updateProgress()
+                    delay(1000)
                 }
             }
+
+//      TODO Проблема в том, что при создании корутины происходит ее запуск и я не могу управлять job.
+//        Запустить, прервать при повторном нажатии на кнопку...
         }
     }
 }

@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
             textCount.text = slider.value.toInt().toString()
             circleProgress.progress = slider.value.toInt()
             circleProgress.max = slider.value.toInt()
+            slider.isEnabled = true
             button.text = "Start"
         }
 
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
             if (button.text == "Start") {
                 currentProgress = slider.value.toInt()
+                slider.isEnabled = false
                 scope.launch {
                     while (currentProgress > 0) {
                         currentProgress-= 1

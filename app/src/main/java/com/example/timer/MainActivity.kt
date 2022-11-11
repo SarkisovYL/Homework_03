@@ -25,6 +25,13 @@ class MainActivity : AppCompatActivity() {
             textCount.text = currentProgress.toString()
         }
 
+        val endProgress = {
+            textCount.text = slider.value.toInt().toString()
+            circleProgress.progress = slider.value.toInt()
+            circleProgress.max = slider.value.toInt()
+            button.text = "Start"
+        }
+
         slider.addOnChangeListener { _, _, _ ->
             circleProgress.max = slider.value.toInt()
             currentProgress = slider.value.toInt()
@@ -39,22 +46,20 @@ class MainActivity : AppCompatActivity() {
 
             val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
             if (button.text == "Start") {
+                currentProgress = slider.value.toInt()
                 scope.launch {
-                    println("Start scope")
                     while (currentProgress > 0) {
                         currentProgress-= 1
                         updateProgress()
                         delay(1000)
                     }
-                    println("Stop scope")
+                    endProgress()
                 }
             }
 
             if (button.text == "Stop") {
-                button.text = "Start"
                 currentProgress = 0
-                textCount.text = slider.value.toInt().toString()
-                circleProgress.progress = slider.value.toInt()
+                endProgress()
             } else button.text = "Stop"
         }
     }

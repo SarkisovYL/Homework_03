@@ -37,17 +37,25 @@ class MainActivity : AppCompatActivity() {
 //             но в то же время нельзя менять UI из других потоков.  Самым простым способом будет
 //             использование корутин с Main диспетчером и метода delay, который не блокирует поток.
 
-            val scope = CoroutineScope(Job() + Dispatchers.Main)
-            val job = scope.launch {
-                while (currentProgress > 0) {
-                    currentProgress-= 1
-                    updateProgress()
-                    delay(1000)
+            val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+            if (button.text == "Start") {
+                scope.launch {
+                    println("Start scope")
+                    while (currentProgress > 0) {
+                        currentProgress-= 1
+                        updateProgress()
+                        delay(1000)
+                    }
+                    println("Stop scope")
                 }
             }
-            button.text = "Stop"
-//      TODO Проблема в том, что при создании корутины происходит ее запуск и я не могу управлять job.
-//        Запустить, прервать при повторном нажатии на кнопку...
+
+            if (button.text == "Stop") {
+                button.text = "Start"
+                currentProgress = 0
+                textCount.text = slider.value.toInt().toString()
+                circleProgress.progress = slider.value.toInt()
+            } else button.text = "Stop"
         }
     }
 }

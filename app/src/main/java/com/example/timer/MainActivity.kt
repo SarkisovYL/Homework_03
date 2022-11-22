@@ -2,8 +2,6 @@ package com.example.timer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import com.example.timer.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 
@@ -58,7 +56,6 @@ class MainActivity : AppCompatActivity() {
                     endProgress()
                 }
             }
-
             if (button.text == "Stop") {
                 currentProgress = 0
                 endProgress()

@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             circleProgress.progress = slider.value.toInt()
             circleProgress.max = slider.value.toInt()
             slider.isEnabled = true
-            button.text = "Start"
+            button.text = getString(R.string.button_text_start)
         }
 
         slider.addOnChangeListener { _, _, _ ->
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 //             использование корутин с Main диспетчером и метода delay, который не блокирует поток.
 
             val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
-            if (button.text == "Start") {
+            if (button.text == getString(R.string.button_text_start)) {
                 currentProgress = slider.value.toInt()
                 slider.isEnabled = false
                 scope.launch {
@@ -56,10 +56,10 @@ class MainActivity : AppCompatActivity() {
                     endProgress()
                 }
             }
-            if (button.text == "Stop") {
+            if (button.text == getString(R.string.button_text_stop)) {
                 currentProgress = 0
                 endProgress()
-            } else button.text = "Stop"
+            } else button.text = getString(R.string.button_text_stop)
         }
     }
 }
